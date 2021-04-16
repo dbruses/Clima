@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimaAPI", "ClimaAPI\ClimaAPI.csproj", "{61E60CC2-3994-435C-A34B-600FEB5C336C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimaWeb", "ClimaWeb\ClimaWeb.csproj", "{AF688F9C-D82B-4CD0-AB5E-B8DB7A25D204}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61E60CC2-3994-435C-A34B-600FEB5C336C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E60CC2-3994-435C-A34B-600FEB5C336C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E60CC2-3994-435C-A34B-600FEB5C336C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E60CC2-3994-435C-A34B-600FEB5C336C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF688F9C-D82B-4CD0-AB5E-B8DB7A25D204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF688F9C-D82B-4CD0-AB5E-B8DB7A25D204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF688F9C-D82B-4CD0-AB5E-B8DB7A25D204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF688F9C-D82B-4CD0-AB5E-B8DB7A25D204}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {754E7251-5D35-4987-86CB-30FA15A487F8}
+	EndGlobalSection
+EndGlobal

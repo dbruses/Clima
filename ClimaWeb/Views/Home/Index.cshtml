@@ -1,0 +1,531 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    List<Paises> paises = ViewBag.Paises;
+    List<Ciudades> ciudades = ViewBag.Ciudades;
+}
+
+<div class="text-center">
+    <h4>SERVICIO DEL CLIMA</h4>
+    <hr style="background-color:#ff6859" />
+</div>
+
+<!-- Panel superior -->
+<div class="row">
+    @*<div class="col-lg-5 col-sm-5" style="background-color:white">*@
+    <div class="col-md-6">
+        <div class="col-md-12" style="background-color:white">
+            <div class="text-center">
+                <h5>Seleccioná la zona</h5>
+                <hr />
+            </div>
+            <div class="text-left">
+                <label>País</label>
+                <select class="form-control" id="cboPais" disabled="disabled" onchange="CargaCiudades();">
+                    @foreach (var pais in paises)
+                    {
+                        <option value="@pais.IdPais">@pais.Descripcion</option>
+                    }
+                </select>
+            </div>
+            <div class="text-left">
+                <label>Ciudad</label>
+                <select class="form-control" id="cboCiudad" disabled="disabled">
+                    @foreach (var ciudad in ciudades)
+                    {
+                        <option value="@ciudad.IdCiudad">@ciudad.Descripcion</option>
+                    }
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <button type="button" id="btnBuscar" onclick="Buscar();" class="btn btn-primary btn btn-block" style="background-color:#ff6859">BUSCAR</button>
+            </div>
+            <br />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row" style="background-color:white">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h5>Reporte Diario</h5>
+                    <hr />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label class="form-control" id="lblPais" style="border:none" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="form-control" id="lblCiudad" style="border:none" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tr>
+                            <td align="center">
+                                <i id="icoRep" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label class="form-control" id="lblDia" style="border:none" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="form-control" id="lblEstado" style="border:none" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                &nbsp;
+            </div>
+            <div class="col-md-6">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label class="form-control" id="lblTempC" style="border:none;font-size:xx-large" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="form-control" id="lblTempF" style="border:none" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table width="100%">
+                    <tr>
+                        <td align="right">
+                            <label class="form-control" id="lblLluvia" style="border:none" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label class="form-control" id="lblHumedad" style="border:none" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label class="form-control" id="lblViento" style="border:none" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<!-- Panel inferior -->
+<div class="row" id="Dias">
+    <div class="col-lg-2 col-sm-2 text-center" style="background-color:white;cursor:pointer;border:none">
+        <a onclick="CargaDia(0);">
+            <div>
+                <label class="form-control" id="d0" style="border:none" />
+            </div>
+            <div>
+                <i id="ico0" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+            </div>
+            <div>
+                <label class="form-control" id="t0" style="border:none" />
+            </div>
+            <div>
+                <label class="form-control" id="f0" style="border:none" />
+            </div>
+            <div>
+                <input type="hidden" id="DT0" />
+                <input type="hidden" id="TC0" />
+                <input type="hidden" id="TF0" />
+                <input type="hidden" id="SU0" />
+                <input type="hidden" id="LL0" />
+                <input type="hidden" id="HU0" />
+                <input type="hidden" id="VT0" />
+                <input type="hidden" id="DAY0" />
+                <input type="hidden" id="icoRp0" />
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-2 col-sm-2 text-center" style="background-color:white;cursor:pointer;border:none">
+        <a onclick="CargaDia(1);">
+            <div>
+                <label class="form-control" id="d1" style="border:none" />
+            </div>
+            <div>
+                <i id="ico1" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+            </div>
+            <div>
+                <label class="form-control" id="t1" style="border:none" />
+            </div>
+            <div>
+                <label class="form-control" id="f1" style="border:none" />
+            </div>
+            <div>
+                <input type="hidden" id="DT1" />
+                <input type="hidden" id="TC1" />
+                <input type="hidden" id="TF1" />
+                <input type="hidden" id="SU1" />
+                <input type="hidden" id="LL1" />
+                <input type="hidden" id="HU1" />
+                <input type="hidden" id="VT1" />
+                <input type="hidden" id="DAY1" />
+                <input type="hidden" id="icoRp1" />
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-2 col-sm-2 text-center" style="background-color:white;cursor:pointer;border:none">
+        <a onclick="CargaDia(2);">
+            <div>
+                <label class="form-control" id="d2" style="border:none" />
+            </div>
+            <div>
+                <i id="ico2" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+            </div>
+            <div>
+                <label class="form-control" id="t2" style="border:none" />
+            </div>
+            <div>
+                <label class="form-control" id="f2" style="border:none" />
+            </div>
+            <div>
+                <input type="hidden" id="DT2" />
+                <input type="hidden" id="TC2" />
+                <input type="hidden" id="TF2" />
+                <input type="hidden" id="SU2" />
+                <input type="hidden" id="LL2" />
+                <input type="hidden" id="HU2" />
+                <input type="hidden" id="VT2" />
+                <input type="hidden" id="DAY2" />
+                <input type="hidden" id="icoRp2" />
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-2 col-sm-2 text-center" style="background-color:white;cursor:pointer;border:none">
+        <a onclick="CargaDia(3);">
+            <div>
+                <label class="form-control" id="d3" style="border:none" />
+            </div>
+            <div>
+                <i id="ico3" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+            </div>
+            <div>
+                <label class="form-control" id="t3" style="border:none" />
+            </div>
+            <div>
+                <label class="form-control" id="f3" style="border:none" />
+            </div>
+            <div>
+                <input type="hidden" id="DT3" />
+                <input type="hidden" id="TC3" />
+                <input type="hidden" id="TF3" />
+                <input type="hidden" id="SU3" />
+                <input type="hidden" id="LL3" />
+                <input type="hidden" id="HU3" />
+                <input type="hidden" id="VT3" />
+                <input type="hidden" id="DAY3" />
+                <input type="hidden" id="icoRp3" />
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-2 col-sm-2 text-center" style="background-color:white;cursor:pointer;border:none">
+        <a onclick="CargaDia(4);">
+            <div>
+                <label class="form-control" id="d4" style="border:none" />
+            </div>
+            <div>
+                <i id="ico4" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+            </div>
+            <div>
+                <label class="form-control" id="t4" style="border:none" />
+            </div>
+            <div>
+                <label class="form-control" id="f4" style="border:none" />
+            </div>
+            <div>
+                <input type="hidden" id="DT4" />
+                <input type="hidden" id="TC4" />
+                <input type="hidden" id="TF4" />
+                <input type="hidden" id="SU4" />
+                <input type="hidden" id="LL4" />
+                <input type="hidden" id="HU4" />
+                <input type="hidden" id="VT4" />
+                <input type="hidden" id="DAY4" />
+                <input type="hidden" id="icoRp4" />
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-2 col-sm-2 text-center" style="background-color:white;cursor:pointer;border:none">
+        <a onclick="CargaDia(5);">
+            <div>
+                <label class="form-control" id="d5" style="border:none" />
+            </div>
+            <div>
+                <i id="ico5" class="fas fa-sun fa-7x color_add" style="color:#ff6859"></i>
+            </div>
+            <div>
+                <label class="form-control" id="t5" style="border:none" />
+            </div>
+            <div>
+                <label class="form-control" id="f5" style="border:none" />
+            </div>
+            <div>
+                <input type="hidden" id="DT5" />
+                <input type="hidden" id="TC5" />
+                <input type="hidden" id="TF5" />
+                <input type="hidden" id="SU5" />
+                <input type="hidden" id="LL5" />
+                <input type="hidden" id="HU5" />
+                <input type="hidden" id="VT5" />
+                <input type="hidden" id="DAY5" />
+                <input type="hidden" id="icoRp5" />
+            </div>
+        </a>
+    </div>
+</div>
+<!-- MODAL -->
+<div id="logginModal" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="avatar">
+                    <i class="fas fa-user color_add fa-3x" style="color:#ff6859"></i>
+                </div>
+                <h4 class="modal-title">Login</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Usuario" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required">
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="GuardaUsr();" class="btn btn-primary btn-lg btn-block login-btn" style="background-color:#ff6859">INICIAR SESIÓN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            localStorage.clear();
+            HabilitaCombos(true);
+            CargaDiasSemana();
+        });
+
+        const nombreDelDiaSegunFecha = fecha => [
+            'DOMINGO',
+            'LUNES',
+            'MARTES',
+            'MIÉRCOLES',
+            'JUEVES',
+            'VIERNES',
+            'SÁBADO',
+        ][new Date(fecha).getDay()];
+
+        function CargaDia(index) {
+            debugger;
+            
+            let pais = $('select[id=cboPais] option:selected').text();
+            let ciudad = $('select[id=cboCiudad] option:selected').text();
+            $("#lblPais").html(pais);
+            $("#lblCiudad").html(ciudad);
+            let icoCls = $("#icoRp" + index).val();
+            $("#icoRep").removeClass();
+            $("#icoRep").addClass(icoCls).addClass("fas").addClass("fa-7x").addClass("color_add");
+            let dia = $("#DAY" + index).val();
+            $("#lblDia").html(dia);
+            let estado = $("#SU" + index).val();
+            $("#lblEstado").html(estado);
+            let tempC = $("#TC" + index).val() + "ºC";
+            $("#lblTempC").html(tempC);
+            let tempF = $("#TF" + index).val() + "ºF";
+            $("#lblTempF").html(tempF);
+            let lluvia = "Prob. de precipitaciones: " + $("#LL" + index).val() + "%";
+            $("#lblLluvia").html(lluvia);
+            let humedad = "Humedad: " + $("#HU" + index).val() + "%";
+            $("#lblHumedad").html(humedad);
+            let viento = "Viento a: " + $("#VT" + index).val() + " km/h";
+            $("#lblViento").html(viento);
+        }
+
+        function CargaDiasSemana() {
+            $("#d0").html(addDays(0));
+            $("#DAY0").val(addDays(0));
+            $("#t0").html("0º C");
+            $("#f0").html("0º F");
+            $("#d1").html(addDays(1));
+            $("#DAY1").val(addDays(1));
+            $("#t1").html("0º C");
+            $("#f1").html("0º F");
+            $("#d2").html(addDays(2));
+            $("#DAY2").val(addDays(2));
+            $("#t2").html("0º C");
+            $("#f2").html("0º F");
+            $("#d3").html(addDays(3));
+            $("#DAY3").val(addDays(3));
+            $("#t3").html("0º C");
+            $("#f3").html("0º F");
+            $("#d4").html(addDays(4));
+            $("#DAY4").val(addDays(4));
+            $("#t4").html("0º C");
+            $("#f4").html("0º F");
+            $("#d5").html(addDays(5));
+            $("#DAY5").val(addDays(5));
+            $("#t5").html("0º C");
+            $("#f5").html("0º F");
+        }
+
+        function CargaCiudades() {
+            let cboPais = document.getElementById("cboPais");
+
+            fetch("@Url.Content("~/Home/GetCiudades")" + "?id=" + cboPais.value)
+                .then(function (res) {
+                    if (res.ok) {
+                        return res.json();
+                    }
+                })
+                .then(function (data) {
+                    console.log(data);
+
+                    let cboCiudad = document.getElementById("cboCiudad");
+                    cboCiudad.innerHTML = "";
+                    let opt0 = document.createElement("option");
+                    opt0.appendChild(document.createTextNode("Seleccioná una ciudad"));
+                    opt0.value = 0;
+                    cboCiudad.appendChild(opt0);
+                    data.forEach(function (element) {
+                        let opt = document.createElement("option");
+                        opt.appendChild(document.createTextNode(element.Descripcion));
+                        opt.value = element.IdCiudad
+                        cboCiudad.appendChild(opt);
+                    })
+                })
+        }
+
+        function GuardaUsr() {
+            let usr = document.getElementById("username").value;
+            let psw = document.getElementById("password").value;
+            if ((usr == null) || (usr == "")) {
+                alert("Debe ingresar un mail de usuario.");
+            }
+            else
+                if ((psw == null) || (psw == "")) {
+                    alert("Debe ingresar la clave de usuario.");
+                }
+                else {
+                    localStorage.setItem("usuario", usr);
+                    localStorage.setItem("password", psw);
+                    CierraModal();
+                    HabilitaCombos(false);
+                }
+        }
+
+        function CierraModal() {
+            $("#logginModal").modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        }
+
+        function HabilitaCombos(habilita) {
+            document.getElementById("cboPais").disabled = habilita;
+            document.getElementById("cboCiudad").disabled = habilita;
+            document.getElementById("btnBuscar").disabled = habilita;
+        }
+
+        function Buscar() {
+            CargaDiasSemana();
+            if ((document.getElementById("cboPais").value != 0) && (document.getElementById("cboCiudad").value != 0)) {
+                var url = "/Home/GetWeather";
+                $.ajax({
+                    async: true,
+                    type: "GET",
+                    url: url,
+                    data: null,
+                    success: function (data) {
+                        CargaDatos(data);
+                    },
+                    error: function (data) {
+                        alert("Error al obtener los datos del tiempo.");
+                    }
+                });
+            }
+            else {
+                alert("Debe seleccionar un país y una ciudad.");
+            }
+        }
+
+        function CargaDatos(datos) {
+            //debugger;
+
+            let arrDatos = JSON.parse(datos);
+
+            for (let i = 0; i < arrDatos.length; i += 1) {
+                document.getElementById("DT" + i).value = arrDatos[i].date;
+                document.getElementById("TC" + i).value = arrDatos[i].temperatureC;
+                $("#t" + i).html(arrDatos[i].temperatureC + "º C");
+                document.getElementById("TF" + i).value = arrDatos[i].temperatureF;
+                $("#f" + i).html(arrDatos[i].temperatureF + "º F");
+                document.getElementById("SU" + i).value = arrDatos[i].summary;
+                document.getElementById("LL" + i).value = arrDatos[i].probLluvia;
+                document.getElementById("HU" + i).value = arrDatos[i].humedad;
+                document.getElementById("VT" + i).value = arrDatos[i].viento;
+
+                $("#ico" + i).removeClass();
+                switch (arrDatos[i].summary) {
+                    case "Despejado":
+                        $("#ico" + i).addClass("fa-sun").addClass("fas").addClass("fa-7x").addClass("color_add"); 
+                        $("#icoRp" + i).val("fa-sun");
+                        break;
+                    case "Nublado":
+                        $("#ico" + i).addClass("fafa-cloud").addClass("fas").addClass("fa-7x").addClass("color_add"); 
+                        $("#icoRp" + i).val("fa-cloud");
+                        break;
+                    case "Parcialmente Nublado":
+                        $("#ico" + i).addClass("fa-cloud-sun").addClass("fas").addClass("fa-7x").addClass("color_add");
+                        $("#icoRp" + i).val("fa-cloud-sun");
+                        break;
+                    case "Tormentas Eléctricas":
+                        $("#ico" + i).addClass("fa-bolt").addClass("fas").addClass("fa-7x").addClass("color_add");
+                        $("#icoRp" + i).val("fa-bolt");
+                        break;
+                    case "Luvioso":
+                        $("#ico" + i).addClass("fa-cloud-showers-heavy").addClass("fas").addClass("fa-7x").addClass("color_add");
+                        $("#icoRp" + i).val("fa-cloud-showers-heavy");
+                        break;
+                    case "Ventoso":
+                        $("#ico" + i).addClass("fa-wind").addClass("fas").addClass("fa-7x").addClass("color_add");
+                        $("#icoRp" + i).val("fa-wind");
+                        break;
+                    case "Nieve":
+                        $("#ico" + i).addClass("fa-snowflake").addClass("fas").addClass("fa-7x").addClass("color_add");
+                        $("#icoRp" + i).val("fa-snowflake");
+                        break;
+                }
+            };
+        }
+
+        function addDays(days) {
+            var result = new Date(Date.now());
+            result.setDate(result.getDate() + days);
+
+            return nombreDelDiaSegunFecha(result);
+        }
+    </script>
+}
